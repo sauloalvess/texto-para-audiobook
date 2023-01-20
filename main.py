@@ -1,15 +1,16 @@
 import pyttsx3
 import PyPDF2
 
-ler_arquivo = open("C:\Users\saulo\Downloads\i-am-malala.pdf", "rb")
-livro = PyPDF2.PdfFileReader(ler_arquivo)
-paginas = livro.numPages
+caminho = open('i-am-malala.pdf', 'rb')
+leitor = PyPDF2.PdfReader(caminho)
+pagina = leitor.pages[0]
 
 voz = pyttsx3.init('sapi5')
 voz.setProperty('rate', 150)
+completo = "Audiobook"
 
-#pagina = livro.getPage(0)
-
-for i in range(0, paginas):
-    texto = paginas[i]
-    voz.save_to_file(texto, "audiobook.mp3")
+for pagina in leitor.pages:
+    texto = pagina.extract_text()
+    completo = completo + texto
+    voz.save_to_file(completo, "audiobook.mp3")
+    voz.runAndWait()
